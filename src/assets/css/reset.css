@@ -1,0 +1,11 @@
+a {
+  color: #222;
+  text-decoration: none;
+}
+img {
+  vertical-align: top;
+}
+ul,
+li {
+  list-style: none;
+}
