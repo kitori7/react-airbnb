@@ -13,7 +13,18 @@ const RoomItem = memo((props) => {
         <div className="desc">{itemData.verify_info.messages?.join("、")}</div>
         <div className="name">{itemData.name}</div>
         <div className="price">￥{itemData.price}/晚</div>
-        <Rating readOnly value={5} sx={{ fontSize: "12px" }}></Rating>
+        <div className="bottom">
+          <Rating
+            readOnly
+            precision={0.1}
+            value={itemData.star_rating ?? 5}
+            sx={{ fontSize: "12px", color: "#00848a" }}
+          ></Rating>
+          <span className="count">{itemData.reviews_count}</span>
+          {itemData.bottom_info && (
+            <span className="extra">·{itemData?.bottom_info?.content}</span>
+          )}
+        </div>
       </div>
     </ItemWrapper>
   );
