@@ -10,3 +10,9 @@ export function getHomeHighScoreData() {
     url: "/home/highscore",
   });
 }
+
+export function getHomeDiscountData() {
+  return request.get({
+    url: "/home/discount",
+  });
+}
