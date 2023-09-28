@@ -11,7 +11,7 @@ const HomeSectionV1 = memo((props) => {
         title={infoData.title}
         subtitle={infoData.subtitle}
       ></SectionHeader>
-      <SectionRooms roomList={infoData.list}></SectionRooms>
+      <SectionRooms roomList={infoData.list} itemWidth="25%"></SectionRooms>
     </SectionV1Wrapper>
   );
 });
