@@ -5,5 +5,7 @@ export const HomeWrapper = styled.div`
     width: 1032px;
     margin: 0 auto;
   }
-
+  > div {
+    margin-top: 30px;
+  }
 `;

@@ -3,10 +3,12 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { HomeWrapper } from "./style";
 import HomeBanner from "./cpns/home-banner";
+import HomeLongFor from "./cpns/home-longfor";
 import { fetchHomeDataAction } from "@/store/modules/home";
 import HomeSectionV1 from "./cpns/home-section-v1";
-import SectionHeader from "@/components/section-header";
-import SectionRooms from "@/components/section-rooms";
+import HomeSectionV2 from "./cpns/home-section-v2";
+import { isEmptyObject } from "@/utils";
+import HomeSectionV3 from "./cpns/home-section-v3/indx";
 
 const Home = memo(() => {
   const dispatch = useDispatch();
@@ -17,11 +19,21 @@ const Home = memo(() => {
   }, [dispatch]);
 
   // 获取数据
-  const { goodPriceInfo, highScoreInfo, discountInfo } = useSelector(
+  const {
+    goodPriceInfo,
+    highScoreInfo,
+    discountInfo,
+    recommendInfo,
+    longForInfo,
+    plusInfo,
+  } = useSelector(
     (state) => ({
       goodPriceInfo: state.home.goodPriceInfo,
       highScoreInfo: state.home.highScoreInfo,
       discountInfo: state.home.discountInfo,
+      recommendInfo: state.home.recommendInfo,
+      longForInfo: state.home.longForInfo,
+      plusInfo: state.home.plusInfo,
     }),
     shallowEqual
   );
@@ -30,18 +42,24 @@ const Home = memo(() => {
     <HomeWrapper>
       <HomeBanner></HomeBanner>
       <div className="content">
-        <div className="discount">
-          <SectionHeader
-            title={discountInfo.title}
-            subtitle={discountInfo.subtitle}
-          ></SectionHeader>
-          <SectionRooms
-            roomList={discountInfo.dest_list?.["成都"]}
-            itemWidth="33.33%"
-          ></SectionRooms>
-        </div>
-        <HomeSectionV1 infoData={goodPriceInfo}></HomeSectionV1>
-        <HomeSectionV1 infoData={highScoreInfo}></HomeSectionV1>
+        {isEmptyObject(discountInfo) && (
+          <HomeSectionV2 infoData={discountInfo}></HomeSectionV2>
+        )}
+        {isEmptyObject(recommendInfo) && (
+          <HomeSectionV2 infoData={recommendInfo}></HomeSectionV2>
+        )}
+        {isEmptyObject(longForInfo) && (
+          <HomeLongFor infoData={longForInfo}></HomeLongFor>
+        )}
+        {isEmptyObject(goodPriceInfo) && (
+          <HomeSectionV1 infoData={goodPriceInfo}></HomeSectionV1>
+        )}
+        {isEmptyObject(highScoreInfo) && (
+          <HomeSectionV1 infoData={highScoreInfo}></HomeSectionV1>
+        )}
+        {isEmptyObject(plusInfo) && (
+          <HomeSectionV3 infoData={plusInfo}></HomeSectionV3>
+        )}
       </div>
     </HomeWrapper>
   );
