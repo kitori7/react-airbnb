@@ -3,11 +3,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchRoomDataAction = createAsyncThunk(
   "fetchRoomData",
-  async (payload, { dispatch, getState }) => {
-    const currentPage = getState().entire.currentPage;
-    const data = await getEntireRoomList(currentPage * 20);
+  async (page = 0, { dispatch }) => {
+    dispatch(changeCurrentPageAction(page));
+    dispatch(changeIsLoadingAction(true));
+    const data = await getEntireRoomList(page * 20);
     dispatch(changeRoomListAction(data.list));
     dispatch(changeTotalCountAction(data.totalCount));
+    dispatch(changeIsLoadingAction(false));
   }
 );
 
@@ -17,6 +19,7 @@ const entireSlice = createSlice({
     currentPage: 0,
     totalCount: 0,
     roomList: [],
+    isLoading: false,
   },
   reducers: {
     changeCurrentPageAction(state, { payload }) {
@@ -28,6 +31,9 @@ const entireSlice = createSlice({
     changeRoomListAction(state, { payload }) {
       state.roomList = payload;
     },
+    changeIsLoadingAction(state, { payload }) {
+      state.isLoading = payload;
+    },
   },
 });
 
@@ -35,6 +41,7 @@ export const {
   changeCurrentPageAction,
   changeTotalCountAction,
   changeRoomListAction,
+  changeIsLoadingAction,
 } = entireSlice.actions;
 
 export default entireSlice.reducer;

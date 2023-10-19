@@ -1,12 +1,16 @@
 import React, { memo } from "react";
 import { RoomsWrapper } from "./style";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import RoomItem from "@/components/room-item";
 const EntireRooms = memo(() => {
-  const { roomList, totalCount } = useSelector((state) => ({
-    roomList: state.entire.roomList,
-    totalCount: state.entire.totalCount,
-  }));
+  const { roomList, totalCount, isLoading } = useSelector(
+    (state) => ({
+      roomList: state.entire.roomList,
+      totalCount: state.entire.totalCount,
+      isLoading: state.entire.isLoading,
+    }),
+    shallowEqual
+  );
 
   return (
     <RoomsWrapper>
@@ -14,10 +18,11 @@ const EntireRooms = memo(() => {
       <div className="list">
         {roomList.map((item) => {
           return (
-            <RoomItem itemData={item} itemWidth="20%" key={item.id}></RoomItem>
+            <RoomItem itemData={item} itemWidth="20%" key={item._id}></RoomItem>
           );
         })}
       </div>
+      {isLoading && <div className="cover"></div>}
     </RoomsWrapper>
   );
 });
