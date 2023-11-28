@@ -17,7 +17,7 @@ const RoomItem = memo((props) => {
 
   // 索引
   const [selectIndex, setSelectIndex] = useState(0);
-  function controlClick(isRight = true) {
+  function controlClick(isRight = true, event) {
     isRight ? sliderRef.current.next() : sliderRef.current.prev();
 
     // 索引修改
@@ -25,6 +25,8 @@ const RoomItem = memo((props) => {
     if (newIndex < 0) newIndex = itemData.picture_urls.length - 1;
     if (newIndex > itemData.picture_urls.length - 1) newIndex = 0;
     setSelectIndex(newIndex);
+
+    event.stopPropagation()
   }
 
   const pictureEl = (
@@ -36,10 +38,10 @@ const RoomItem = memo((props) => {
   const sliderEl = (
     <div className="slider">
       <div className="control">
-        <div className="btn left" onClick={(e) => controlClick(false)}>
+        <div className="btn left" onClick={(e) => controlClick(false, e)}>
           <IconArrowLeft width={30} height={30}></IconArrowLeft>
         </div>
-        <div className="btn right" onClick={(e) => controlClick(true)}>
+        <div className="btn right" onClick={(e) => controlClick(true, e)}>
           <IconArrowRight width={30} height={30}></IconArrowRight>
         </div>
       </div>

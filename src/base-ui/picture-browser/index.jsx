@@ -7,6 +7,8 @@ import { useState } from "react";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 import IconTriangleArrowBottom from "@/assets/svg/icon-triangle-arrow-bottom";
 import Indicator from "../indicator";
+import classNames from "classnames";
+import IconTriangleArrowTop from "@/assets/svg/icon-triangle-arrow-top";
 
 const PictureBrowser = memo((props) => {
   const { pictureUrls, closeClick } = props;
@@ -33,8 +35,16 @@ const PictureBrowser = memo((props) => {
     setCurrentIndex(newIndex);
     setIsNext(isNext);
   }
+  // 控制栏显示隐藏
+  const [showList, setShowList] = useState(true);
+
+  //item点击切换
+  function handleItemClick(index) {
+    setIsNext(index > currentIndex ? true : false);
+    setCurrentIndex(index);
+  }
   return (
-    <BrowserWrapper isNext={isNext}>
+    <BrowserWrapper $isNext={isNext} $showList={showList}>
       <div className="top">
         <div className="close-btn" onClick={closeBtnClickHandle}>
           关闭
@@ -65,19 +75,31 @@ const PictureBrowser = memo((props) => {
         <div className="info">
           <div className="desc">
             <div className="count">
-              <span>15/30:</span>
-              <span>room apartment图片15</span>
+              <span>
+                {currentIndex + 1}/{pictureUrls.length}:
+              </span>
+              <span>room apartment图片{currentIndex + 1}</span>
             </div>
-            <div className="toggle">
-              <span>隐藏照片列表</span>
-              <IconTriangleArrowBottom></IconTriangleArrowBottom>
+            <div className="toggle" onClick={(e) => setShowList(!showList)}>
+              <span>{showList ? "隐藏" : "显示"}照片列表</span>
+              {showList ? (
+                <IconTriangleArrowBottom></IconTriangleArrowBottom>
+              ) : (
+                <IconTriangleArrowTop></IconTriangleArrowTop>
+              )}
             </div>
           </div>
           <div className="list">
             <Indicator selectIndex={currentIndex}>
-              {pictureUrls.map((item) => {
+              {pictureUrls.map((item, index) => {
                 return (
-                  <div className="item" key={item}>
+                  <div
+                    key={item}
+                    className={classNames("item", {
+                      active: currentIndex === index,
+                    })}
+                    onClick={(e) => handleItemClick(index)}
+                  >
                     <img src={item} alt="" />
                   </div>
                 );
