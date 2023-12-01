@@ -9,6 +9,7 @@ import HomeSectionV1 from "./cpns/home-section-v1";
 import HomeSectionV2 from "./cpns/home-section-v2";
 import { isEmptyObject } from "@/utils";
 import HomeSectionV3 from "./cpns/home-section-v3/indx";
+import { changeHeaderConfigAction } from "@/store/modules/main";
 
 const Home = memo(() => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Home = memo(() => {
   // 发起请求
   useEffect(() => {
     dispatch(fetchHomeDataAction());
+    dispatch(changeHeaderConfigAction({ isFixed: true, topAlpha: true }));
   }, [dispatch]);
 
   // 获取数据
